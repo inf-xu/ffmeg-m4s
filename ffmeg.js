@@ -36,11 +36,20 @@ function FFmeg(limp, name) {
     })
 }
 
+// 获取视频的名字
+function getName(videoUrl) {
+    videoUrl = path.resolve(videoUrl, '../entry.json')
+    let rawdata = fs.readFileSync(videoUrl);
+    let videoInfo = JSON.parse(rawdata);
+    return videoInfo['page_data']['part']
+}
+
 
 function makeDir(urlName) {
     let resList = []
     urlName.forEach(item => {
-        resList.push(item.replace('assets', 'res').substring(0, 14))
+        videoUrl = path.resolve(item.replace('assets', 'res'), '../../')
+        resList.push(videoUrl)
     })
     resList = Array.from(new Set(resList))
     resList.forEach(item => {
@@ -55,4 +64,5 @@ module.exports = {
     FFmeg,
     getJsonFiles,
     makeDir,
+    getName
 }
