@@ -2,4 +2,8 @@ node_modules
 .idea
 .vscode
 .git
+.swp
 package-lock.json
+
+assets
+res
