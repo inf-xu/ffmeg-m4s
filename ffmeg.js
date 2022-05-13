@@ -37,6 +37,7 @@ function getJsonRes(urlName) {
     return resList;
 }
 
+// 生成命令行，执行命令行
 function FFmeg(info) {
 
     if (!fs.existsSync(info.restUrl)) {
@@ -46,19 +47,13 @@ function FFmeg(info) {
     function getComm(url) {
         return fs.existsSync(url) ?  ` -i ${url} `: '';
     }
-
     let audioComm = getComm(`${info.assetUrl}/audio.m4s`);
     let command = `ffmpeg -i ${info.assetUrl}/video.m4s `+audioComm+` -codec copy "${info.restUrl}/${info.restName}"`;
     if(config.resOverwrite)
         command+=' -y ';
-    console.log(command);
-    child.execSync(command, {maxBuffer: 1024*1024*1024}, function (err) {
-        if (err) {
-            console.log(err.message);
-        } else {
-            console.log('ok');
-        }
-    })
+    logger.info(command);
+
+    return child.execSync(command, {maxBuffer: 1024*1024*1024}).toString();
 }
 
 // 获取视频的信息
@@ -97,15 +92,18 @@ function correctFilename(str) {
 
 function init(newconfig) {
     Object.assign(config, newconfig);
+    logger=config.logger;
 }
 
+let logger;
 let config = {
     assets:'./assets',        // 待合并资源位置
     res:'./res',              // 合并后视频位置
     resOverwrite:true,
-    vedioIdMode:'avid'       // avid=以avid为目录，title=以title为目录
+    vedioIdMode:'avid',       // avid=以avid为目录，title=以title为目录
+    logger: console,
 }
-
+init();
 module.exports = {
     init,
     FFmeg,

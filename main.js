@@ -1,8 +1,10 @@
-const ffmeg = require('./ffmeg')
+const ffmeg = require('./ffmeg');
 const fs = require('fs');
-
+const logger = require("./logger");
+  
 function main() {
     let config = {
+        logger: logger,
         vedioIdMode: 'title'
     }
     ffmeg.init(config);
@@ -12,13 +14,19 @@ function main() {
     let urlRes = ffmeg.getJsonRes(urlAsset);
     // 处理
     urlRes.forEach(item => {
-        ffmeg.FFmeg(item);
+        try {
+            let log = ffmeg.FFmeg(item);
+            if(log) logger.debug(log);
+        } catch(e) {
+            logger.error(e.message);
+        }
     });
 }
 
 function init() {
-    main()
-    console.log('已合成全部视频');
+    logger.info('初始化');
+    main();
+    logger.info('已合成全部视频');
 }
 
-init()
+init();
