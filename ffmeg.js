@@ -3,12 +3,14 @@ const child = require('child_process')
 const path = require('path');
 const logger = require("./logger");
 const tools = {
-    // 去除字符串中的空格
     correctFilename: function(str) {
-        return str?str.replace(/^\s*|\s*$/g, ''):'';
+        if(!str) str='';
+        str = str.replace(/^\s*|\s*$/g, '');
+        str = str.replace(/\/+/g, '');
+        return str;
     },
     correctArgs: function(str) {
-        return str?str.trim():'';
+        return str?str.replace(/^\s*|\s*$/g, ''):'';
     },
 }
 
@@ -55,10 +57,10 @@ function FFmegSync(info) {
     }
 
     function getComm(url) {
-        return fs.existsSync(url) ?  ` -i ${url} `: '';
+        return fs.existsSync(url) ?  ` -i "${url}" `: '';
     }
     let audioComm = getComm(`${info.assetUrl}/audio.m4s`);
-    let command = `ffmpeg -i ${info.assetUrl}/video.m4s `+audioComm+` -codec copy "${info.restUrl}/${info.restName}"`;
+    let command = `ffmpeg -i "${info.assetUrl}/video.m4s" `+audioComm+` -codec copy "${info.restUrl}/${info.restName}"`;
     if(config.resOverwrite)
         command+=' -y ';
     logger.info(command);

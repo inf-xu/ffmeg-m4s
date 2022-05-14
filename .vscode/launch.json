@@ -16,7 +16,7 @@
             //"args": ["-h", "--assets=aaa", "-bqqqqqqqqq"]
             //"args": ["--assets=C:\\Users\\lawsssscat\\Downloads\\1076105" , "-b title", "-r C:/Users/lawsssscat/Downloads/12", "-V"],
             //"args": ["-b title", "-V"],
-            "args": ["-b title"],
+            //"args": ["-b avid"],
         }
     ]
 }
