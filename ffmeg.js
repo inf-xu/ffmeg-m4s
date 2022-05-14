@@ -6,7 +6,7 @@ const tools = {
     correctFilename: function(str) {
         if(!str) str='';
         str = str.replace(/^\s*|\s*$/g, '');
-        str = str.replace(/\/+/g, '');
+        str = str.replace(/(\/|\\|\*|\:|\?|\"|\<|\>|\|)+/g, ''); // 文件名无效字符
         return str;
     },
     correctArgs: function(str) {

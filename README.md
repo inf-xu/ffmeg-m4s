@@ -47,3 +47,12 @@ npm install
 # Run the app
 node main.js
 ```
+
+#### 4. 自定义参数
+
+```bash
+# specify i/o path
+node main --assets=C:\\Users\\lawsssscat\\Downloads\\1076105 -r C:/Users/lawsssscat/Downloads/12 -V
+# detail see
+node main --help
+```
