@@ -29,7 +29,11 @@ function getJsonFiles() {
             if (stat.isFile() === true) {
                 let baseName = path.basename(fPath)
                 if (baseName === 'video.m4s') {
-                    urlName.push('./' + path.dirname(fPath).replace(/\\/g, '/'))
+                    let dirname = path.dirname(fPath).replace(/\\/g, '/');
+                    if(path.isAbsolute(dirname))
+                        urlName.push(dirname);
+                    else 
+                        urlName.push('./' + dirname);
                 }
             }
         });

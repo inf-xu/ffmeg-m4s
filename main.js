@@ -9,7 +9,7 @@ function main() {
     .description('合并b站离线下载m4s格式视频')
     .option('-h, --help', 'print this')
     .option('-V, --verbose', 'verbose')
-    .option('-a, --assets <url>', '待合并资源位置', 'asscts')
+    .option('-a, --assets <url>', '待合并资源位置', 'assets')
     .option('-r, --result <url>', '合并后结果位置', 'res')
     .option('-b, --base-result-mode <mode>', '合并后一级目录名模式. e.g:title,avid', 'title')
     .parse(process.argv);
@@ -20,7 +20,7 @@ function main() {
     } else {
         let config = {}
         if(options.verbose) config.verbose = options.verbose;
-        if(options.asscts) config.asscts = options.asscts;
+        if(options.assets) config.assets = options.assets;
         if(options.result) config.res = options.result;
         if(options.baseResultMode) config.vedioIdMode = options.baseResultMode;
         logger.info('初始化配置');
