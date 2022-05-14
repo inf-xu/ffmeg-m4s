@@ -51,8 +51,8 @@ node main.js
 #### 4. 自定义参数
 
 ```bash
-# specify i/o path
+# Specify i/o path and verbose log 
 node main --assets=C:\\Users\\lawsssscat\\Downloads\\1076105 -r C:/Users/lawsssscat/Downloads/12 -V
-# detail see
+# Detail see help
 node main --help
 ```
