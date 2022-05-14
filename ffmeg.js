@@ -5,10 +5,10 @@ const logger = require("./logger");
 const tools = {
     // 去除字符串中的空格
     correctFilename: function(str) {
-        return str.replace(/^\s*|\s*$/g, '');
+        return str?str.replace(/^\s*|\s*$/g, ''):'';
     },
     correctArgs: function(str) {
-        return str.replace(/^\s*|\s*$/g, '');
+        return str?str.trim():'';
     },
 }
 
@@ -61,13 +61,17 @@ function FFmegSync(info) {
     let command = `ffmpeg -i ${info.assetUrl}/video.m4s `+audioComm+` -codec copy "${info.restUrl}/${info.restName}"`;
     if(config.resOverwrite)
         command+=' -y ';
-    command+=' 2>&1'; // todo：妥协方案。因不知道为啥，ffmpeg部分日志通过stderr输出。而execSync的pipe模式中stderr的输出不进入返回值，因此把stderr重定向至stdout。
     logger.info(command);
 
-    let arr = child.execSync(command, {maxBuffer: 1024*1024*1024,});
-    let log = arr.toString();
-    if(config.verbose && log) 
-        logger.debug(log);
+    // todo：妥协方案2。因不知道为啥，ffmpeg部分日志通过stderr输出。而execSync的pipe模式中stderr的输出不进入返回值，因此通过spawnSync单独处理stderr、stdout。
+    let log = child.spawnSync(command, [], {maxBuffer: 1024*1024*1024,stdio:'pipe',shell:true});
+    if(log.error) throw log.error; // 程序内部错误
+    if(log.status!=0)  throw new Error(log.stderr.toString()); // 命令执行错误
+    if(config.verbose) {
+        let logstr = log.stdout.toString() + log.stderr.toString();
+        if(logstr) 
+            logger.debug(logstr);
+    }
 }
 
 // 获取视频的信息

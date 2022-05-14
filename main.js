@@ -40,7 +40,7 @@ function main() {
                 logger.info('ok');
             } catch(e) {
                 fail++;
-                logger.error('error:'+e.message);
+                logger.error(e.stack);
             }
         });
 
