@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "console":"integratedTerminal",
+            "program": "main.js",
+            //"args": ["-h", "--assets=aaa", "-bqqqqqqqqq"]
+            //"args": ["--assets=C:\\Users\\lawsssscat\\Downloads\\1076105" , "-b title", "-r C:/Users/lawsssscat/Downloads/12", "-V"],
+            //"args": ["-b title", "-V"],
+            "args": ["-b title"],
+        }
+    ]
+}

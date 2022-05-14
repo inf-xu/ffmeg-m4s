@@ -1,6 +1,16 @@
 const fs = require('fs');
 const child = require('child_process')
 const path = require('path');
+const logger = require("./logger");
+const tools = {
+    // 去除字符串中的空格
+    correctFilename: function(str) {
+        return str.replace(/^\s*|\s*$/g, '');
+    },
+    correctArgs: function(str) {
+        return str.replace(/^\s*|\s*$/g, '');
+    },
+}
 
 // 得到所有的路径
 function getJsonFiles() {
@@ -38,7 +48,7 @@ function getJsonRes(urlName) {
 }
 
 // 生成命令行，执行命令行
-function FFmeg(info) {
+function FFmegSync(info) {
 
     if (!fs.existsSync(info.restUrl)) {
         fs.mkdirSync(info.restUrl, { recursive: true });
@@ -51,9 +61,13 @@ function FFmeg(info) {
     let command = `ffmpeg -i ${info.assetUrl}/video.m4s `+audioComm+` -codec copy "${info.restUrl}/${info.restName}"`;
     if(config.resOverwrite)
         command+=' -y ';
+    command+=' 2>&1'; // todo：妥协方案。因不知道为啥，ffmpeg部分日志通过stderr输出。而execSync的pipe模式中stderr的输出不进入返回值，因此把stderr重定向至stdout。
     logger.info(command);
 
-    return child.execSync(command, {maxBuffer: 1024*1024*1024}).toString();
+    let arr = child.execSync(command, {maxBuffer: 1024*1024*1024,});
+    let log = arr.toString();
+    if(config.verbose && log) 
+        logger.debug(log);
 }
 
 // 获取视频的信息
@@ -70,43 +84,42 @@ function getJsonFilesInfo(assetUrl) {
             restUrl+=('/'+fileinfo['avid']);
             break;
         case 'title':
-            restUrl+=('/'+correctFilename(fileinfo['title']));
+            restUrl+=('/'+tools.correctFilename(fileinfo['title']));
             break;
         default:
             Error('error config.vedioIdMode \''+config.vedioIdMode+'\'');
             break;
     }
     info.restUrl = restUrl;
-    info.restName = correctFilename(fileinfo['page_data']['part'])+'.mp4';
+    info.restName = tools.correctFilename(fileinfo['page_data']['part'])+'.mp4';
 
     return info;
 }
 
-// 去除字符串中的空格
-function correctFilename(str) {
-    str = str.replace(/^\s*|\s*$/g, '');
-    // if(str.indexOf(' ') >= 0) 
-    //     str = '\''+str+'\'';
-    return str;
-}
-
 function init(newconfig) {
     Object.assign(config, newconfig);
-    logger=config.logger;
+    for (let key in config) {
+        if (config.hasOwnProperty(key)) {
+            let value = config[key];
+            if (typeof(value)=='string')
+                config[key] = tools.correctArgs(value);
+        }
+    }
+
+    if(config.verbose) logger.debug(JSON.stringify(config));
 }
 
-let logger;
 let config = {
     assets:'./assets',        // 待合并资源位置
     res:'./res',              // 合并后视频位置
     resOverwrite:true,
     vedioIdMode:'avid',       // avid=以avid为目录，title=以title为目录
-    logger: console,
+    verbose: false,
 }
 init();
 module.exports = {
     init,
-    FFmeg,
+    FFmegSync,
     getJsonFiles,
     getJsonRes,
 }

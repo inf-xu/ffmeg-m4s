@@ -1,6 +1,6 @@
 node_modules
 .idea
-.vscode
+#.vscode
 .git
 .swp
 package-lock.json
