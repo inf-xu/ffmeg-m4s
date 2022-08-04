@@ -7,6 +7,8 @@ const tools = {
         if(!str) str='';
         str = str.replace(/^\s*|\s*$/g, '');
         str = str.replace(/(\/|\\|\*|\:|\?|\"|\<|\>|\|)+/g, ''); // 文件名无效字符
+        str = str.replace(/\.+/g, '.');
+        str = str.replace(/(^\.)|(\.$)/g, '');
         return str;
     },
     correctArgs: function(str) {
@@ -96,12 +98,15 @@ function getJsonFilesInfo(assetUrl) {
         case 'title':
             restUrl+=('/'+tools.correctFilename(fileinfo['title']));
             break;
+        case 'avid+title':
+            restUrl+=('/'+`${fileinfo['avid']}-${tools.correctFilename(fileinfo['title'])}`);
+            break;
         default:
             Error('error config.vedioIdMode \''+config.vedioIdMode+'\'');
             break;
     }
     info.restUrl = restUrl;
-    info.restName = tools.correctFilename(fileinfo['page_data']['part'])+'.mp4';
+    info.restName = `${(tools.correctFilename(fileinfo['page_data']['part']) || 'vedio')}-${fileinfo['page_data']['cid']}.mp4`;
 
     return info;
 }
