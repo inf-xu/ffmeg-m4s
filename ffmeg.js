@@ -106,7 +106,7 @@ function getJsonFilesInfo(assetUrl) {
             break;
     }
     info.restUrl = restUrl;
-    info.restName = tools.correctFilename(fileinfo['page_data']['part'])+'.mp4';
+    info.restName = `${(tools.correctFilename(fileinfo['page_data']['part']) || 'vedio')}-${fileinfo['page_data']['cid']}.mp4`;
 
     return info;
 }
