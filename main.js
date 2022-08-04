@@ -11,7 +11,7 @@ function main() {
     .option('-V, --verbose', 'verbose')
     .option('-a, --assets <url>', '待合并资源位置', 'assets')
     .option('-r, --result <url>', '合并后结果位置', 'res')
-    .option('-b, --base-result-mode <mode>', '合并后一级目录名模式. e.g:title,avid', 'title')
+    .option('-b, --base-result-mode <mode>', '合并后一级目录名模式. e.g:title,avid,avid+title', 'title')
     .parse(process.argv);
 
     const options = program.opts();

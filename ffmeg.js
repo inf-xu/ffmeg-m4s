@@ -96,6 +96,9 @@ function getJsonFilesInfo(assetUrl) {
         case 'title':
             restUrl+=('/'+tools.correctFilename(fileinfo['title']));
             break;
+        case 'avid+title':
+            restUrl+=('/'+`${fileinfo['avid']}-${tools.correctFilename(fileinfo['title'])}`);
+            break;
         default:
             Error('error config.vedioIdMode \''+config.vedioIdMode+'\'');
             break;
