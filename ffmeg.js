@@ -7,6 +7,8 @@ const tools = {
         if(!str) str='';
         str = str.replace(/^\s*|\s*$/g, '');
         str = str.replace(/(\/|\\|\*|\:|\?|\"|\<|\>|\|)+/g, ''); // 文件名无效字符
+        str = str.replace(/\.+/g, '.');
+        str = str.replace(/(^\.)|(\.$)/g, '');
         return str;
     },
     correctArgs: function(str) {
