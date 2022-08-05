@@ -1,4 +1,4 @@
->由于需要电脑播放B站缓存的视频，而B站缓存的视频是.m4s格式的，音频和视频分离。目前没有播放器可以识别，因此我想到了利用FFmeg来处理合并。
+>由于需要电脑播放B站缓存的视频，而B站缓存的视频（位置：`/device/Android/data/tv.danmaku.bili/download/{avid}`）是.m4s格式的，音频和视频分离。目前没有播放器可以识别，因此我想到了利用FFmeg来处理合并。
 
 
 
@@ -31,7 +31,7 @@
 
 ```bash
 # Clone this repository
-git clone https://github.com/KDaisyers/ffmeg-m4s
+git clone https://github.com/LawssssCat/ffmeg-m4s
 ```
 
 #### 2. 初始化
@@ -46,4 +46,13 @@ npm install
 ```bash
 # Run the app
 node main.js
+```
+
+#### 4. 自定义参数
+
+```bash
+# Specify i/o path and verbose log 
+node main --assets=C:\\Users\\lawsssscat\\Downloads\\1076105 -r C:/Users/lawsssscat/Downloads/12 -V
+# Detail see help
+node main --help
 ```
