@@ -31,7 +31,7 @@
 
 ```bash
 # Clone this repository
-git clone https://github.com/LawssssCat/ffmeg-m4s
+git clone https://github.com/inf-xu/ffmeg-m4s.git
 ```
 
 #### 2. 初始化
